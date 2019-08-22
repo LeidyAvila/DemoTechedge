@@ -37,9 +37,9 @@
             <form class="needs-validation" id="form-history" novalidate>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="tipoDocuemnto">Numero de documento de Cliente</label>
+                        <label for="numeroCliente">Numero de documento de Cliente</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="tipoDocuemnto" placeholder="Documento de identificación...">
+                            <input type="text" class="form-control" id="numeroCliente" placeholder="Documento de identificación...">
                             <span class="input-group-btn">
                                 <button class="btn btn-primary" onclick="SearchPerson()" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                             </span>
@@ -52,17 +52,17 @@
                 
                 <div class="row dataForm" style="display: none;">
                     <div class="col-md-5 mb-3">
-                        <label for="area">Tipo de Industria</label>
-                        <select class="form-control d-block w-100" id="area" required>
-                            <option>Selecciona un tipo de Industria</option>
+                        <label for="tipoDocumento">Tipo de Documento</label>
+                        <select class="form-control d-block w-100" id="tipoDocumento" required>
+                            <option>Selecciona un tipo de documento</option>
                         </select>
                         <div class="invalid-feedback hidden">
                             Please select a valid country.
                         </div>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="tipoTaxo">Tipo documental</label>
-                        <select class="form-control d-block w-100" id="tipoTaxo" onchange="GetPathId()" required>
+                        <label for="tipoIndustria">Tipo de industria</label>
+                        <select class="form-control d-block w-100" id="tipoIndustria" required>
                             <option>Selecciona un Tipo</option>
                         </select>
                         <div class="invalid-feedback hidden">
@@ -127,14 +127,14 @@
             form.on("submit", function (e) {
                 e.preventDefault();
                 var files = $('#multiple_input_group')[0].files;
-                if($('#area').val() == "Selecciona un tipo de Industria"){
+                if($('#tipoIndustria').val() == "Selecciona un Tipo"){
                     swal({
                         type: 'warning',
                         title: 'Espera...',
                         text: "Faltan datos obligatorios: Selecciona una Industria válida"
                     });
                     $("#buttonSave").button('reset');
-                }else if($('#tipoTaxo').val() == "Selecciona un Tipo"){
+                }else if($('#tipoDocumento').val() == "Selecciona un tipo de documento"){
                     swal({
                         type: 'warning',
                         title: 'Espera...',

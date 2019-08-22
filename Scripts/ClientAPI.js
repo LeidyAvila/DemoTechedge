@@ -42,7 +42,7 @@ function GetInfoSelects(node, select) {
                 var data = msg.data.trim();
                 var arrayTypeDoc = data.split(',');
                 $.each(arrayTypeDoc, function( i, val ) {
-                    $("#tipoDocuemnto").append( "<input value='" + val + "'>" );
+                    $("#tipoDocumento").append( "<input value='" + val + "'>" );
                 });
             },
             error: function() { 
@@ -68,35 +68,10 @@ function GetInfoSelects(node, select) {
                 var data = msg.data.trim();
                 var arrayTypeDoc = data.split(',');
                 $.each(arrayTypeDoc, function( i, val ) {
-                    $("#area").append( "<option value='" + val + "'>" + val + "</option>" );
+                    $("#tipoIndustria").append( "<option value='" + val + "'>" + val + "</option>" );
                 });
             },
             error: function() { 
-                swal({
-                    type: 'error',
-                    title: 'Opps...',
-                    text: "Error del servidor, intenta más tarde..."
-                });
-            },
-            beforeSend: setHeader
-        });
-        break;
-        case 3:
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            statusCode: {
-                401:function() { logOut(); }
-            },
-            success: function(msg) {
-                var data = msg.data.trim();
-                var arrayTypeDoc = data.split(',');
-                $.each(arrayTypeDoc, function( i, val ) {
-                    $("#tipoTaxo").append( "<option value='" + val + "'>" + val + "</option>" );
-                });
-            },
-            error: function() {
                 swal({
                     type: 'error',
                     title: 'Opps...',
