@@ -15,8 +15,10 @@
     <link rel="stylesheet" href="/sweetalert2/dist/sweetalert2.min.css" />
     <script src="/Bootstrap/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="/datepiker/js/bootstrap-datepicker.min.js"></script>
-    <script src="/Scripts/ClientAPI.js"></script>
+    <script src="/Scripts/ClientAPI.js"></script>    
     <script src="/Scripts/site.js"></script>
+    
+    
 </head>
 <body>
     <i class="icon-menu glyphicon glyphicon-log-out" aria-hidden="true" title="Salir" onclick="logOut()"></i>
@@ -37,16 +39,17 @@
             <form class="needs-validation" id="form-history" novalidate>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="numeroCliente">Numero de documento de Cliente</label>
+                        <label for="numeroCliente">Número de documento de Cliente</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="numeroCliente" placeholder="Documento de identificación...">
                             <span class="input-group-btn">
-                                <button class="btn btn-primary" onclick="SearchPerson()" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                <button id="search" class="btn btn-primary" onclick="SearchPerson()" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                             </span>
+                        </div>
                         <div class="invalid-feedback hidden">
                             Valid last name is required.
                         </div>
-                    </div>
+                     </div>
                 </div>
                 <hr class="mb-4">
                 
@@ -62,7 +65,7 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="tipoIndustria">Tipo de industria</label>
-                        <select class="form-control d-block w-100" id="tipoIndustria" required>
+                        <select class="form-control d-block w-100" onchange="GetPathId()" id="tipoIndustria" required>
                             <option>Selecciona un Tipo</option>
                         </select>
                         <div class="invalid-feedback hidden">
@@ -94,19 +97,20 @@
                 </div>
                 <hr class="mb-4 dataForm" style="display: none;">
                 <button id="buttonSave" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Subiendo Archivo..." style="display: none;" onclick="load()" class="btn btn-primary btn-lg btn-block" type="submit">Enviar información</button>
+                
             </form>
         </div>
     </div>
     
     <script>
         $(document).ready(function() {
-            GetInfoSelects('882769', 1);
-            GetInfoSelects('882310', 2);
+            GetInfoSelects('882769', 2);
+            GetInfoSelects('882310', 1);
         });
         
         function SearchPerson(){
-            var tipoDoc = $('#tipoDocuemnto').val();
-            GetInfoPerson(tipoDoc);
+            var numClient = $('#numeroCliente').val();
+            GetInfoPerson(numClient);
         }
         
         $('.datepicker').datepicker({
@@ -171,6 +175,8 @@
                     $("#buttonSave").button('reset');
                 }
                 else{
+                    //let folderDoc = document.getElementById('folder').value;
+
                     UploadFile();
                 }
             });

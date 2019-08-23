@@ -42,7 +42,7 @@ function GetInfoSelects(node, select) {
                 var data = msg.data.trim();
                 var arrayTypeDoc = data.split(',');
                 $.each(arrayTypeDoc, function( i, val ) {
-                    $("#tipoDocumento").append( "<input value='" + val + "'>" );
+                    $("#tipoDocumento").append( "<option value='" + val + "'>" + val + "</option>" );
                 });
             },
             error: function() { 
@@ -122,6 +122,7 @@ function GetInfoPerson(tipoDoc, cedula){
                 $('#infoSearch').hide();
                 $('#errorSearch').hide();
                 $('.dataForm').show();
+                $('#search').hide();
             }
             localStorage.setItem("DataID", dataJson.DataID);
         },
@@ -141,13 +142,12 @@ function GetInfoPerson(tipoDoc, cedula){
 }
 
 function GetPathId(){
-    var tipoDocumento = $('#tipoTaxo').val();
-    var dataIdArea = localStorage.getItem("DataID");
+    var numeroCliente = $('#numeroCliente').val();
     var tokenJson = sessionStorage.getItem("Key");
     var jsonToken = JSON.parse(tokenJson);
     
-    url = urlpath + 'v1/nodes/882075/output?idcliente=' + tipoDoc;
-    if(tipoDocumento != "Selecciona un Tipo" ){
+    url = urlpath + 'v1/nodes/882075/output?idcliente=' + numeroCliente;
+    if(numeroCliente != "Selecciona un Tipo" ){
         $.ajax({
             url: url,
             type: 'GET',
@@ -160,6 +160,7 @@ function GetPathId(){
                 var dataPath = JSON.parse(data);
                 console.log(dataPath);
                 localStorage.setItem("DataIDPath", dataPath.Folder);
+                
             },
             error: function() { 
                 swal({
@@ -178,26 +179,31 @@ function GetPathId(){
     
 }
 
+
 function UploadFile(){
-    url = urlpath + "v2/nodes";
-    var tipoDocumento = $('#tipoTaxo').val();
-    var pathID = localStorage.getItem("DataIDPath");
+    var tipoDocumento = $('#tipoDocumento').val();
     var tokenJson = sessionStorage.getItem("Key");
     var jsonToken = JSON.parse(tokenJson);
     var datos = new FormData();
-    var jdata = [];
-    
+    var fecha = new Date();
+    var fechactual= fecha.getDay()+"/"+fecha.getMonth()+"/"+fecha.getFullYear()+" "+fecha.getHours()+"."+fecha.getMinutes()+"."+fecha.getSeconds();
+    var nombreDoc = tipoDocumento+" "+fechactual;
+    let pathID = parseInt(localStorage.getItem("DataIDPath"), 10);
+    url = urlpath + "v2/nodes";
+    debugger
+    datos.append("type", 144);
+    datos.append("parent_id", pathID);
+    datos.append("name", nombreDoc);
+    console.log("datos", datos);
+
     $.each($(":file"), function (iif, oif) {
         $.each($(oif)[0].files, function (siif, soif) {
             datos.append("file", soif);
         });
     });
-    datos.append("type", 144);
-    datos.append("parent_id", pathID);
-    datos.append("name", tipoDocumento);
-    
-    console.log("datos", datos);
+
     $.ajax({
+        
         url: url,
         data: datos,
         cache: false,
@@ -208,6 +214,7 @@ function UploadFile(){
         statusCode: {
             401:function() { logOut(); },
             500:function() { 
+                debugger
                 swal({
                     type: 'error',
                     title: 'Opps...',
@@ -226,6 +233,9 @@ function UploadFile(){
             var fileID = msg.results.data.properties.id;
             $("#buttonSave").button('reset');
             AddCategory(fileID);
+            localStorage.clear;
+            
+            
         },
         error: function() { 
             swal({
@@ -242,15 +252,15 @@ function UploadFile(){
     }
 }
 
-function AddCategory(DataDI){
-    url = urlpath + "v2/nodes/" + DataDI + "/categories";
-    var pathID = localStorage.getItem("DataIDPath");
+function AddCategory(DataID){
+    url = urlpath + "v2/nodes/" + DataID + "/categories";
     var tokenJson = sessionStorage.getItem("Key");
     var jsonToken = JSON.parse(tokenJson);
+
     var category = {
         category_id: 884802,
-        '884802_2': $('#area').val(), //Area
-        '884802_3': $('#tipoTaxo').val(), //Tipo documental
+        '884802_2': $('#tipoIndustria').val(), //Industria
+        '884802_3': $('#tipoDocumento').val(), //Tipo documental
         '884802_4': $('#fechaDocumento').val()  //Fecha
     };
     
