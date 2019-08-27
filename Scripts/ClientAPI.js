@@ -186,7 +186,7 @@ function UploadFile(){
     var jsonToken = JSON.parse(tokenJson);
     var datos = new FormData();
     var fecha = new Date();
-    var fechactual= fecha.getDay()+"/"+fecha.getMonth()+"/"+fecha.getFullYear()+" "+fecha.getHours()+"."+fecha.getMinutes()+"."+fecha.getSeconds();
+    var fechactual= fecha.getDate()+"/"+fecha.getMonth()+"/"+fecha.getFullYear()+" "+fecha.getHours()+"."+fecha.getMinutes()+"."+fecha.getSeconds();
     var nombreDoc = tipoDocumento+" "+fechactual;
     let pathID = parseInt(localStorage.getItem("DataIDPath"), 10);
     url = urlpath + "v2/nodes";
